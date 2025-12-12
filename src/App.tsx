@@ -3,7 +3,8 @@ import { RouterProvider } from "react-router";
 import router from "./router/router.tsx";
 import styled from "styled-components";
 import Spinner from "./components/Spinner.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase.ts";
 
 const Wrapper = styled.div`
     height: 100dvh;
@@ -13,6 +14,14 @@ const Wrapper = styled.div`
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
+
+    const init = () => {
+        return auth.authStateReady().then(() => setIsLoading(false));
+    };
+
+    useEffect(() => {
+        init();
+    }, []);
 
     return (
         <Wrapper>
