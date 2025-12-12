@@ -2,6 +2,8 @@ import GlobalStyle from "./styles/GlobalStyle.tsx";
 import { RouterProvider } from "react-router";
 import router from "./router/router.tsx";
 import styled from "styled-components";
+import Spinner from "./components/Spinner.tsx";
+import { useState } from "react";
 
 const Wrapper = styled.div`
     height: 100dvh;
@@ -10,10 +12,12 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+    const [isLoading, setIsLoading] = useState(true);
+
     return (
         <Wrapper>
             <GlobalStyle />
-            <RouterProvider router={router} />
+            {isLoading ? <Spinner /> : <RouterProvider router={router} />}
         </Wrapper>
     );
 }
