@@ -45,6 +45,7 @@ function CreateAccount() {
             );
 
             // 그 객체를 통해 firebase에 기록
+            // updateProfile(사용자정보, 함수)
             await updateProfile(credentials.user, {
                 displayName: data.name,
             });
