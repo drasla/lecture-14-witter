@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebase.ts";
 
 const Wrapper = styled.div`
     height: 100%;
@@ -84,10 +86,34 @@ function CreateAccount() {
         },
     });
 
+    const onSubmit = async (data: FormValues) => {
+        // react-hook-form이 관리하고 있는 errors 객체에 기록되어 있는 내용을 삭제해줌
+        clearErrors();
+
+        // firebase에 실질적으로 받은 input 내용들을 전달 해줘야 함
+        try {
+            // firebase에서 관리하는 사용자 객체를 만들어서
+            const credentials = await createUserWithEmailAndPassword(
+                auth,
+                data.email,
+                data.password,
+            );
+
+            // 그 객체를 통해 firebase에 기록
+            await updateProfile(credentials.user, {
+                displayName: data.name,
+            });
+            navigate("/");
+        } catch (e) {
+            console.log(e);
+            setError("root", { message: "계정 생성에 실패하였습니다."});
+        }
+    };
+
     return (
         <Wrapper>
             <Title>Join X</Title>
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     placeholder={"Name"}
                     required

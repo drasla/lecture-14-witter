@@ -20,7 +20,10 @@ function App() {
     };
 
     useEffect(() => {
-        init();
+        // Promise<void>이기 때문에 실패할 확률이 있음. (초기화가 안될 가능성)
+        // firebase에 접속을 못하는 상황이 될 수 있으나,
+        // 그렇게 되면 아예 이 프로젝트는 구동할 이유가 없기 때문에 catch를 써주지 않았음
+        init().then(() => {});
     }, []);
 
     return (
