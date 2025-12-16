@@ -87,13 +87,14 @@ function PostTweetForm() {
 
         try {
             // firestore에서 사용할 수 있는 규격에 맞춘 객체를 준비
-            // 그 객체를 firestore에 저장
-            const doc = await addDoc(collection(db, "tweets"), {
+            const tweet = {
                 tweet: data.tweet,
-                createdAt: new Date(),
+                createdAt: new Date(),     // 생성시간
                 username: user.displayName || "Anonymous",
                 userId: user.uid,
-            });
+            }
+            // 그 객체를 firestore에 저장
+            const doc = await addDoc(collection(db, "tweets"), tweet);
         } catch (e) {
             console.log(e);
         }
