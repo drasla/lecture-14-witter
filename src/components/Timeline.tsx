@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase.ts";
+import Tweet from "./Tweet.tsx";
 
 const Wrapper = styled.div`
     display: flex;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
     gap: 10px;
 `;
 
-type TweetType = {
+export type TweetType = {
     id: string;
     tweet: string;
     createdAt: number;
@@ -61,7 +62,7 @@ function Timeline() {
 
     return <Wrapper>
         {tweets.map((item, index) => {
-            return <div key={index}>{item.tweet}</div>
+            return <Tweet key={index} item={item}/>
         })}
     </Wrapper>;
 }

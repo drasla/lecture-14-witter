@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { auth, db } from "../firebase.ts";
 import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router";
 
 const Form = styled.form`
     display: flex;
@@ -66,6 +67,8 @@ type TweetFormValues = {
 };
 
 function PostTweetForm() {
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -95,6 +98,11 @@ function PostTweetForm() {
             }
             // 그 객체를 firestore에 저장
             const doc = await addDoc(collection(db, "tweets"), tweet);
+
+            setValue("tweet", "");
+
+            // 원래는, 그 불러오는 부분만 재실행해서 Timeline 부분만 갱신해줘야 함
+            navigate(0);     // 새로고침
         } catch (e) {
             console.log(e);
         }
