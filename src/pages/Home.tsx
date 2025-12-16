@@ -6,6 +6,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 50px;
+    width: 100%;
 `;
 
 function Home() {
